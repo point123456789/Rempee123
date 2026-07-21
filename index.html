@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รามปี้ | ช้อปสนุก ส่งไว ใจส้มแดง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --flame-700:#B8300F;
+  --flame-600:#E0491D;
+  --flame-500:#FF6B35;
+  --flame-400:#FF8B5E;
+  --ember-700:#C1272D;
+  --gold-400:#FFB84D;
+  --gold-300:#FFD08A;
+  --cream-50:#FFF8F3;
+  --cream-100:#FFF1E7;
+  --ink-900:#2B1810;
+  --ink-700:#5A4438;
+  --ink-400:#9C8577;
+  --line:#F0DFD1;
+  --white:#FFFFFF;
+  --ok-600:#2E8B57;
+  --shadow-sm: 0 1px 3px rgba(184,48,15,0.08);
+  --shadow-md: 0 6px 20px rgba(184,48,15,0.12);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Sarabun',sans-serif;
+  background:var(--cream-50);
+  color:var(--ink-900);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.display{font-family:'Kanit',sans-serif;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;border:none;}
+input,select,textarea{font-family:inherit;}
+::selection{background:var(--gold-300);}
+svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;width:18px;height:18px;}
+:focus-visible{outline:3px solid var(--flame-500);outline-offset:2px;}
+
+/* ---------- Layout shell ---------- */
+#app{min-height:100vh;display:flex;flex-direction:column;}
+.container{max-width:1180px;margin:0 auto;padding:0 20px;width:100%;}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  background:linear-gradient(135deg,var(--flame-600) 0%, var(--ember-700) 55%, var(--flame-700) 100%);
+  color:var(--white);
+  position:sticky;top:0;z-index:40;
+  box-shadow:var(--shadow-md);
+}
+.topbar-inner{display:flex;align-items:center;gap:18px;padding:14px 20px;max-width:1180px;margin:0 auto;}
+.logo{display:flex;align-items:center;gap:8px;font-family:'Kanit',sans-serif;font-weight:800;font-size:26px;letter-spacing:.5px;flex-shrink:0;}
+.logo-mark{
+  width:38px;height:38px;border-radius:11px;
+  background:linear-gradient(160deg,var(--gold-300),var(--flame-500) 60%, var(--ember-700));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.25) inset, 0 2px 6px rgba(0,0,0,.2);
+  position:relative;
+}
+.logo-mark:after{
+  content:"";position:absolute;inset:5px;border-radius:7px;
+  background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.55), transparent 60%);
+}
+.logo-mark svg{width:20px;height:20px;position:relative;z-index:1;fill:none;stroke:var(--white);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.searchbar{
+  flex:1;display:flex;align-items:center;background:var(--white);
+  border-radius:999px;padding:4px 4px 4px 18px;box-shadow:var(--shadow-sm);
+  max-width:640px;
+}
+.searchbar input{
+  border:none;outline:none;flex:1;font-size:15px;padding:9px 6px;color:var(--ink-900);background:transparent;
+}
+.searchbar input::placeholder{color:var(--ink-400);}
+.searchbar button{
+  background:linear-gradient(135deg,var(--flame-500),var(--ember-700));
+  color:var(--white);border-radius:999px;padding:10px 22px;font-weight:600;font-size:14px;
+  display:flex;align-items:center;gap:6px;transition:transform .15s ease, box-shadow .15s ease;
+}
+.searchbar button:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.2);}
+.top-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.icon-btn{
+  position:relative;width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.14);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s ease;
+}
+.icon-btn:hover{background:rgba(255,255,255,.26);}
+.icon-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;}
+.badge{
+  position:absolute;top:-2px;right:-2px;background:var(--gold-400);color:var(--ink-900);
+  font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;
+  box-shadow:0 0 0 2px var(--ember-700);
+}
+.pill-btn{
+  background:var(--white);color:var(--ember-700);font-weight:700;font-size:14px;
+  padding:10px 20px;border-radius:999px;white-space:nowrap;transition:transform .15s ease;
+}
+.pill-btn:hover{transform:translateY(-1px);}
+.pill-btn.ghost{background:rgba(255,255,255,.14);color:var(--white);}
+.user-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);padding:6px 14px 6px 6px;border-radius:999px;color:var(--white);font-size:14px;font-weight:600;}
+.user-chip .avatar{width:28px;height:28px;border-radius:50%;background:var(--gold-400);color:var(--ink-900);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+
+/* category strip */
+.catstrip{background:var(--white);border-bottom:1px solid var(--line);}
+.catstrip-inner{display:flex;gap:26px;padding:11px 20px;max-width:1180px;margin:0 auto;overflow-x:auto;}
+.catchip{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--ink-700);flex-shrink:0;padding:4px 2px;border-bottom:2px solid transparent;transition:.15s;}
+.catchip:hover, .catchip.active{color:var(--flame-600);border-bottom-color:var(--flame-500);}
+.catchip .em{font-size:20px;}
+
+/* ---------- Main ---------- */
+main{flex:1;}
+.hero{
+  background:linear-gradient(120deg,var(--flame-500) 0%, var(--flame-600) 45%, var(--ember-700) 100%);
+  position:relative;overflow:hidden;margin-bottom:26px;
+}
+.hero:before{
+  content:"";position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,208,138,.35), transparent 70%);
+}
+.hero-inner{max-width:1180px;margin:0 auto;padding:38px 20px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;z-index:1;}
+.hero h1{color:var(--white);font-size:32px;font-weight:800;margin:0 0 8px;line-height:1.25;}
+.hero p{color:var(--gold-300);font-size:15px;margin:0 0 16px;font-weight:600;}
+.hero .flame-tag{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.18);color:var(--gold-300);
+  padding:6px 14px;border-radius:999px;font-size:13px;font-weight:700;margin-bottom:14px;
+}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-2deg);}50%{transform:scale(1.12) rotate(2deg);}}
+.flame-tag .fl{display:inline-block;animation:flick 1.4s ease-in-out infinite;}
+.hero-cta{background:var(--white);color:var(--ember-700);font-weight:700;padding:12px 26px;border-radius:999px;font-size:14.5px;}
+.hero-badge{
+  background:var(--cream-50);border-radius:var(--radius-lg);padding:18px 22px;text-align:center;box-shadow:var(--shadow-md);
+  min-width:150px;
+}
+.hero-badge .num{font-family:'Kanit';font-size:26px;font-weight:800;color:var(--ember-700);}
+.hero-badge .lbl{font-size:12px;color:var(--ink-700);font-weight:600;}
+
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:6px 0 16px;}
+.section-title h2{font-size:20px;font-weight:700;margin:0;display:flex;align-items:center;gap:8px;}
+.section-title .see-all{font-size:13.5px;color:var(--flame-600);font-weight:700;}
+
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+@media(max-width:980px){.grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr);}}
+
+.card{
+  background:var(--white);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);
+  border:1px solid var(--line);transition:transform .15s ease, box-shadow .15s ease;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.card-img{
+  aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:48px;
+  position:relative;
+}
+.card-body{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1;}
+.card-name{font-size:13.5px;font-weight:500;line-height:1.4;height:38px;overflow:hidden;color:var(--ink-900);}
+.card-price{color:var(--ember-700);font-weight:800;font-size:16px;font-family:'Kanit';}
+.card-price .old{color:var(--ink-400);text-decoration:line-through;font-weight:500;font-size:12px;font-family:'Sarabun';margin-left:6px;}
+.card-meta{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--ink-400);}
+.flash-ribbon{
+  position:absolute;top:8px;left:8px;background:linear-gradient(135deg,var(--gold-400),var(--flame-600));
+  color:var(--white);font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:999px;
+  display:flex;align-items:center;gap:3px;box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+.stars{color:var(--gold-400);}
+
+/* Footer */
+footer{background:var(--ink-900);color:var(--cream-100);margin-top:40px;padding:34px 20px 20px;font-size:13.5px;}
+footer .foot-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+footer .copyline{opacity:.55;margin-top:22px;text-align:center;font-size:12px;}
+
+/* ---------- Buttons general ---------- */
+.btn{padding:11px 22px;border-radius:999px;font-weight:700;font-size:14px;transition:transform .15s ease, filter .15s ease;}
+.btn:hover{transform:translateY(-1px);}
+.btn-primary{background:linear-gradient(135deg,var(--flame-500),var(--ember-700));color:var(--white);box-shadow:0 4px 14px rgba(224,73,29,.35);}
+.btn-outline{background:transparent;border:1.5px solid var(--flame-500);color:var(--flame-600);}
+.btn-soft{background:var(--cream-100);color:var(--ember-700);}
+.btn-block{width:100%;}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ---------- Auth pages ---------- */
+.auth-wrap{min-height:calc(100vh - 0px);display:flex;align-items:center;justify-content:center;padding:40px 16px;
+  background:radial-gradient(circle at 20% 10%, rgba(255,139,94,.25), transparent 45%), radial-gradient(circle at 90% 90%, rgba(255,208,138,.3), transparent 45%), var(--cream-50);}
+.auth-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);max-width:400px;width:100%;padding:32px 28px;border:1px solid var(--line);}
+.auth-card .logo{justify-content:center;color:var(--ember-700);margin-bottom:6px;}
+.auth-sub{text-align:center;color:var(--ink-700);font-size:13.5px;margin-bottom:22px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--ink-700);margin-bottom:6px;}
+.field input,.field select,.field textarea{
+  width:100%;border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:11px 13px;font-size:14.5px;
+  background:var(--cream-50);color:var(--ink-900);transition:border-color .15s ease;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--flame-500);outline:none;background:var(--white);}
+.role-toggle{display:flex;gap:8px;margin-bottom:16px;}
+.role-toggle button{flex:1;padding:10px;border-radius:var(--radius-sm);border:1.5px solid var(--line);background:var(--cream-50);font-weight:600;font-size:13.5px;color:var(--ink-700);}
+.role-toggle button.active{border-color:var(--flame-500);background:var(--cream-100);color:var(--ember-700);}
+.auth-switch{text-align:center;margin-top:16px;font-size:13.5px;color:var(--ink-700);}
+.auth-switch b{color:var(--flame-600);cursor:pointer;}
+.demo-box{background:var(--cream-100);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:var(--ink-700);margin-top:16px;line-height:1.7;}
+.error-box{background:#FDEAEA;color:#B02A2A;border-radius:var(--radius-sm);padding:9px 12px;font-size:13px;margin-bottom:12px;}
+
+/* ---------- Product detail ---------- */
+.pd-wrap{display:grid;grid-template-columns:400px 1fr;gap:34px;padding:30px 0 50px;}
+@media(max-width:800px){.pd-wrap{grid-template-columns:1fr;}}
+.pd-img{aspect-ratio:1/1;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;font-size:110px;box-shadow:var(--shadow-sm);}
+.pd-title{font-size:24px;font-weight:700;margin:0 0 8px;}
+.pd-price{font-family:'Kanit';font-size:32px;font-weight:800;color:var(--ember-700);margin:14px 0;}
+.pd-row{display:flex;align-items:center;gap:14px;margin:16px 0;}
+.qty-box{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;}
+.qty-box button{width:36px;height:36px;background:var(--cream-100);color:var(--ember-700);font-size:18px;font-weight:700;}
+.qty-box span{width:42px;text-align:center;font-weight:700;}
+.shop-strip{display:flex;align-items:center;gap:12px;background:var(--cream-100);padding:12px 16px;border-radius:var(--radius-md);margin:18px 0;}
+.shop-strip .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--flame-500),var(--ember-700));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;}
+
+/* ---------- Orders / tracking ---------- */
+.order-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);padding:18px 20px;margin-bottom:16px;box-shadow:var(--shadow-sm);}
+.order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.order-id{font-weight:700;font-size:14px;color:var(--ink-700);}
+.status-chip{padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:700;}
+.status-รอชำระเงิน{background:#FFF3D6;color:#8A5B00;}
+.status-กำลังจัดเตรียม{background:#FFE3D1;color:var(--ember-700);}
+.status-จัดส่งแล้ว{background:#DCEBFF;color:#1E5FAE;}
+.status-สำเร็จ{background:#DEF5E3;color:var(--ok-600);}
+.order-item-row{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:13.5px;}
+.order-item-row .thumb{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--cream-100);flex-shrink:0;}
+.tracker{display:flex;align-items:center;margin:18px 0 6px;}
+.tstep{flex:1;text-align:center;position:relative;}
+.tstep .dot{width:16px;height:16px;border-radius:50%;background:var(--line);margin:0 auto 6px;position:relative;z-index:1;}
+.tstep.done .dot{background:var(--flame-500);}
+.tstep .lbl{font-size:11px;color:var(--ink-400);font-weight:600;}
+.tstep.done .lbl{color:var(--ember-700);}
+.tline{position:absolute;top:8px;left:-50%;width:100%;height:2px;background:var(--line);z-index:0;}
+.tstep.done .tline{background:var(--flame-500);}
+.tstep:first-child .tline{display:none;}
+
+/* ---------- Seller dashboard ---------- */
+.dash-shell{display:grid;grid-template-columns:220px 1fr;gap:26px;padding:26px 0 50px;}
+@media(max-width:760px){.dash-shell{grid-template-columns:1fr;}}
+.dash-nav{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px;height:fit-content;}
+.dash-nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 12px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--ink-700);margin-bottom:4px;}
+.dash-nav button.active{background:var(--cream-100);color:var(--ember-700);}
+.dash-panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);padding:24px;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+.stat-box{background:var(--cream-100);border-radius:var(--radius-md);padding:16px 18px;}
+.stat-box .n{font-family:'Kanit';font-size:24px;font-weight:800;color:var(--ember-700);}
+.stat-box .l{font-size:12.5px;color:var(--ink-700);font-weight:600;}
+table.dt{width:100%;border-collapse:collapse;font-size:13.5px;}
+table.dt th{text-align:left;padding:10px;border-bottom:2px solid var(--line);color:var(--ink-700);font-size:12.5px;}
+table.dt td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+.notif-item{display:flex;gap:12px;padding:13px 10px;border-radius:var(--radius-sm);border-bottom:1px solid var(--line);align-items:flex-start;}
+.notif-item.unread{background:var(--cream-100);}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--flame-500);margin-top:6px;flex-shrink:0;}
+.notif-dot.read{background:transparent;}
+.small-muted{color:var(--ink-400);font-size:12px;}
+
+/* ---------- Toast ---------- */
+#toast-wrap{position:fixed;bottom:20px;right:20px;z-index:100;display:flex;flex-direction:column;gap:10px;}
+.toast{background:var(--ink-900);color:#fff;padding:13px 18px;border-radius:var(--radius-sm);box-shadow:var(--shadow-md);font-size:13.5px;display:flex;align-items:center;gap:10px;animation:slidein .25s ease;max-width:300px;}
+.toast .dotgood{width:8px;height:8px;border-radius:50%;background:var(--gold-400);flex-shrink:0;}
+@keyframes slidein{from{transform:translateX(30px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* ---------- Empty state ---------- */
+.empty{text-align:center;padding:60px 20px;color:var(--ink-400);}
+.empty .em{font-size:44px;margin-bottom:12px;}
+
+/* modal (admin login) */
+.modal-bg{position:fixed;inset:0;background:rgba(43,24,16,.55);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;}
+
+.chipbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:var(--cream-100);color:var(--ember-700);font-size:12.5px;font-weight:700;border:1px solid var(--line);}
+.chipbtn.on{background:var(--flame-600);color:#fff;border-color:var(--flame-600);}
+
+.link-btn{color:var(--flame-600);font-weight:700;font-size:13.5px;background:none;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast-wrap"></div>
+<script>
+/* ============================================================
+   RAMPEE — in-memory demo marketplace (no backend/localStorage)
+   ============================================================ */
+
+/* ---------- seed data ---------- */
+const CATS = [
+  {k:'fashion', l:'แฟชั่น', em:'👕'},
+  {k:'electronics', l:'อิเล็กทรอนิกส์', em:'🎧'},
+  {k:'home', l:'ของใช้ในบ้าน', em:'🏠'},
+  {k:'beauty', l:'ความงาม', em:'💄'},
+  {k:'food', l:'อาหาร', em:'🍜'},
+  {k:'sports', l:'กีฬา', em:'⚽'},
+  {k:'toys', l:'ของเล่น', em:'🧸'},
+  {k:'books', l:'หนังสือ', em:'📚'},
+];
+
+let state = {
+  users: [
+    {id:'u1', username:'buyer1', password:'1234', role:'buyer', name:'คุณน้ำฝน ใจดี'},
+    {id:'u2', username:'seller1', password:'1234', role:'seller', name:'ร้านส้มโอช็อป', shopName:'ส้มโอช็อป'},
+    {id:'u3', username:'seller2', password:'1234', role:'seller', name:'บ้านของกินอร่อย', shopName:'บ้านของกินอร่อย'},
+  ],
+  products: [
+    {id:'p1', sellerId:'u2', name:'เสื้อยืดโอเวอร์ไซส์ ผ้าคอตตอน 100%', price:199, oldPrice:299, cat:'fashion', em:'👕', color:'#FFE3D1', stock:120, sold:842, rating:4.8, flash:true},
+    {id:'p2', sellerId:'u2', name:'หูฟังไร้สาย บลูทูธ 5.3 กันน้ำ', price:390, oldPrice:590, cat:'electronics', em:'🎧', color:'#DCEBFF', stock:60, sold:1290, rating:4.7, flash:true},
+    {id:'p3', sellerId:'u3', name:'บะหมี่กึ่งสำเร็จรูปรสต้มยำกุ้ง แพ็ค 12', price:129, oldPrice:150, cat:'food', em:'🍜', color:'#FFE9C7', stock:300, sold:3021, rating:4.9, flash:false},
+    {id:'p4', sellerId:'u2', name:'ลิปสติกแมทท์ ติดทนนาน 12 ชม.', price:159, oldPrice:220, cat:'beauty', em:'💄', color:'#FFD6E0', stock:80, sold:560, rating:4.6, flash:true},
+    {id:'p5', sellerId:'u3', name:'กระทะเทฟลอนเคลือบ 3 ชั้น 28 ซม.', price:349, oldPrice:499, cat:'home', em:'🍳', color:'#E8E2FF', stock:45, sold:210, rating:4.5, flash:false},
+    {id:'p6', sellerId:'u2', name:'รองเท้าผ้าใบวิ่ง พื้นเบาสวมใส่สบาย', price:590, oldPrice:790, cat:'sports', em:'👟', color:'#D9F2E4', stock:32, sold:412, rating:4.7, flash:false},
+    {id:'p7', sellerId:'u3', name:'ตุ๊กตาหมีตัวใหญ่ นุ่มฟู 60 ซม.', price:259, oldPrice:350, cat:'toys', em:'🧸', color:'#FFF0D6', stock:70, sold:188, rating:4.9, flash:true},
+    {id:'p8', sellerId:'u2', name:'หนังสือ นิยาย “แสงสุดท้ายที่ปลายฟ้า”', price:225, oldPrice:265, cat:'books', em:'📚', color:'#F1E4D3', stock:150, sold:96, rating:4.4, flash:false},
+    {id:'p9', sellerId:'u3', name:'พาวเวอร์แบงค์ 20000mAh ชาร์จเร็ว', price:450, oldPrice:650, cat:'electronics', em:'🔋', color:'#DCEBFF', stock:55, sold:733, rating:4.6, flash:true},
+    {id:'p10', sellerId:'u2', name:'กระเป๋าสะพายผ้าแคนวาส ทรงมินิมอล', price:299, oldPrice:399, cat:'fashion', em:'👜', color:'#FFE3D1', stock:40, sold:301, rating:4.5, flash:false},
+  ],
+  orders: [
+    {id:'RP20260701', buyerId:'u1', sellerId:'u2', items:[{pid:'p1',qty:2},{pid:'p2',qty:1}], status:'จัดส่งแล้ว', date:'1 ก.ค. 2569', address:'88/8 ถ.สุขุมวิท กรุงเทพฯ'},
+    {id:'RP20260710', buyerId:'u1', sellerId:'u3', items:[{pid:'p3',qty:3}], status:'กำลังจัดเตรียม', date:'10 ก.ค. 2569', address:'88/8 ถ.สุขุมวิท กรุงเทพฯ'},
+    {id:'RP20260620', buyerId:'u1', sellerId:'u2', items:[{pid:'p6',qty:1}], status:'สำเร็จ', date:'20 มิ.ย. 2569', address:'88/8 ถ.สุขุมวิท กรุงเทพฯ'},
+  ],
+  notifications: [
+    {id:'n1', sellerId:'u2', text:'มีคำสั่งซื้อใหม่ #RP20260701 จาก คุณน้ำฝน ใจดี', read:true, time:'1 ก.ค. 2569 09:12'},
+  ],
+};
+
+let session = { user:null };
+let orderSeq = 3;
+let notifSeq = 2;
+let view = { name:'home', query:'', cat:null, productId:null, dashTab:'products' };
+
+/* ---------- helpers ---------- */
+const $ = sel => document.querySelector(sel);
+const money = n => '฿' + n.toLocaleString('th-TH');
+const findUser = id => state.users.find(u=>u.id===id);
+const findProduct = id => state.products.find(p=>p.id===id);
+const catLabel = k => (CATS.find(c=>c.k===k)||{}).l || k;
+
+function toast(msg){
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className='toast';
+  el.innerHTML = `<span class="dotgood"></span><span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s ease'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 2800);
+}
+
+function go(name, extra={}){
+  view = {...view, name, ...extra};
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- icons ---------- */
+const ICONS = {
+  bell:`<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+  bag:`<svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+  search:`<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>`,
+  user:`<svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>`,
+  store:`<svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M3 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M4 9v10h16V9"/></svg>`,
+  logout:`<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>`,
+};
+
+/* ---------- top bar ---------- */
+function renderTopbar(){
+  const isSeller = session.user && session.user.role==='seller';
+  const isBuyer = session.user && session.user.role==='buyer';
+  const myUnread = isSeller ? state.notifications.filter(n=>n.sellerId===session.user.id && !n.read).length : 0;
+  return `
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="javascript:void(0)" onclick="go('home')" class="logo">
+        <span class="logo-mark">${ICONS.bag.replace('<svg','<svg')}</span>
+        รามปี้
+      </a>
+      <form class="searchbar" onsubmit="event.preventDefault(); doSearch();">
+        <input id="searchInput" type="text" placeholder="ค้นหาสินค้าที่ใช่ ในราคาที่โดนใจ..." value="${view.name==='search'?escapeAttr(view.query):''}">
+        <button type="submit">${ICONS.search} ค้นหา</button>
+      </form>
+      <div class="top-actions">
+        ${isSeller ? `
+          <a class="icon-btn" href="javascript:void(0)" onclick="go('dashboard',{dashTab:'notifications'})" title="แจ้งเตือนคำสั่งซื้อ">
+            ${ICONS.bell}
+            ${myUnread>0?`<span class="badge">${myUnread}</span>`:''}
+          </a>
+          <a class="pill-btn" href="javascript:void(0)" onclick="go('dashboard')">${ICONS.store.replace('viewBox="0 0 24 24"','viewBox="0 0 24 24" style="width:15px;height:15px;vertical-align:-2px;margin-right:4px"')}ร้านของฉัน</a>
+        `:''}
+        ${isBuyer ? `
+          <a class="icon-btn" href="javascript:void(0)" onclick="go('myOrders')" title="คำสั่งซื้อของฉัน">${ICONS.bag}</a>
+        `:''}
+        ${session.user ? `
+          <a class="user-chip" href="javascript:void(0)" onclick="doLogout()" title="ออกจากระบบ">
+            <span class="avatar">${session.user.name[0]}</span>
+            <span>${session.user.name.split(' ')[0]}</span>
+            ${ICONS.logout.replace('viewBox="0 0 24 24"','viewBox="0 0 24 24" style="width:15px;height:15px;"')}
+          </a>
+        ` : `
+          <a class="pill-btn ghost" href="javascript:void(0)" onclick="go('login')">เข้าสู่ระบบ</a>
+          <a class="pill-btn" href="javascript:void(0)" onclick="go('register')">สมัครสมาชิก</a>
+        `}
+      </div>
+    </div>
+  </div>
+  <div class="catstrip"><div class="catstrip-inner">
+    ${CATS.map(c=>`<a class="catchip ${view.cat===c.k?'active':''}" href="javascript:void(0)" onclick="go('search',{cat:'${c.k}', query:''})"><span class="em">${c.em}</span>${c.l}</a>`).join('')}
+  </div></div>
+  `;
+}
+function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim();
+  go('search', {query:q, cat:null});
+}
+
+/* ---------- product card ---------- */
+function productCard(p){
+  const seller = findUser(p.sellerId);
+  return `
+  <div class="card" onclick="go('product',{productId:'${p.id}'})">
+    <div class="card-img" style="background:${p.color}">
+      ${p.flash?`<span class="flash-ribbon"><span style="animation:flick 1.2s ease-in-out infinite;display:inline-block">🔥</span> ดีลส้มแดง</span>`:''}
+      ${p.em}
+    </div>
+    <div class="card-body">
+      <div class="card-name">${p.name}</div>
+      <div class="card-price">${money(p.price)}<span class="old">${money(p.oldPrice)}</span></div>
+      <div class="card-meta">
+        <span class="stars">★ ${p.rating}</span>
+        <span>ขายแล้ว ${p.sold}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const flash = state.products.filter(p=>p.flash);
+  return `
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="flame-tag"><span class="fl">🔥</span> แฟลชเซล วันนี้เท่านั้น</div>
+        <h1>ช้อปสนุก ราคาส้มแดง<br>ส่งไวถึงบ้านคุณ</h1>
+        <p>สินค้าคุณภาพจากร้านค้าทั่วประเทศ อัปเดตทุกวัน</p>
+        <a href="javascript:void(0)" onclick="go('search',{cat:null,query:''})" class="hero-cta">เลือกซื้อสินค้าทั้งหมด</a>
+      </div>
+      <div class="hero-badge">
+        <div class="num">${state.products.length}+</div>
+        <div class="lbl">สินค้าพร้อมส่ง</div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section-title">
+      <h2>🔥 ดีลส้มแดง ลดแรงวันนี้</h2>
+      <a class="see-all" href="javascript:void(0)" onclick="go('search',{query:'',cat:null})">ดูทั้งหมด</a>
+    </div>
+    <div class="grid">${flash.map(productCard).join('')}</div>
+
+    <div class="section-title" style="margin-top:34px;">
+      <h2>🛍️ สินค้าทั้งหมด</h2>
+    </div>
+    <div class="grid">${state.products.map(productCard).join('')}</div>
+  </div>
+  `;
+}
+
+/* ---------- SEARCH ---------- */
+function renderSearch(){
+  const q = (view.query||'').toLowerCase();
+  let list = state.products;
+  if(view.cat) list = list.filter(p=>p.cat===view.cat);
+  if(q) list = list.filter(p=>p.name.toLowerCase().includes(q));
+  return `
+  <div class="container" style="padding-top:24px;">
+    <div class="section-title">
+      <h2>${view.cat? catLabel(view.cat) : (q?`ผลการค้นหา “${escapeAttr(view.query)}”`:'สินค้าทั้งหมด')} <span class="small-muted" style="font-weight:400;">(${list.length} รายการ)</span></h2>
+    </div>
+    ${list.length? `<div class="grid">${list.map(productCard).join('')}</div>` : `
+      <div class="empty"><div class="em">🔍</div><div>ไม่พบสินค้าที่ค้นหา ลองคำอื่นดูนะ</div></div>
+    `}
+  </div>`;
+}
+
+/* ---------- PRODUCT DETAIL ---------- */
+let pdQty = 1;
+function renderProduct(){
+  const p = findProduct(view.productId);
+  if(!p) return `<div class="container empty"><div class="em">😕</div>ไม่พบสินค้านี้</div>`;
+  const seller = findUser(p.sellerId);
+  return `
+  <div class="container">
+    <div class="pd-wrap">
+      <div class="pd-img" style="background:${p.color}">${p.em}</div>
+      <div>
+        <div class="pd-title">${p.name}</div>
+        <div style="display:flex;gap:14px;align-items:center;color:var(--ink-700);font-size:13.5px;">
+          <span class="stars">★ ${p.rating}</span><span>|</span><span>ขายแล้ว ${p.sold} ชิ้น</span><span>|</span><span>คงเหลือ ${p.stock} ชิ้น</span>
+        </div>
+        <div class="pd-price">${money(p.price)} <span class="old" style="font-size:16px;">${money(p.oldPrice)}</span></div>
+
+        <div class="shop-strip">
+          <div class="avatar">${seller.shopName[0]}</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;">${seller.shopName}</div>
+            <div class="small-muted">ผู้ขายที่ได้รับการยืนยัน</div>
+          </div>
+        </div>
+
+        <div class="pd-row">
+          <span style="font-weight:600;font-size:14px;">จำนวน</span>
+          <div class="qty-box">
+            <button onclick="changeQty(-1,${p.stock})">−</button>
+            <span id="qtyVal">${pdQty}</span>
+            <button onclick="changeQty(1,${p.stock})">+</button>
+          </div>
+        </div>
+
+        <div class="pd-row">
+          <button class="btn btn-outline" onclick="orderNow('${p.id}')">ซื้อเลย</button>
+          <button class="btn btn-primary" onclick="orderNow('${p.id}')">🛒 สั่งซื้อสินค้า</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function changeQty(d, max){
+  pdQty = Math.min(max, Math.max(1, pdQty+d));
+  document.getElementById('qtyVal').textContent = pdQty;
+}
+function orderNow(pid){
+  if(!session.user){ toast('กรุณาเข้าสู่ระบบก่อนสั่งซื้อ'); go('login'); return; }
+  if(session.user.role!=='buyer'){ toast('บัญชีร้านค้าไม่สามารถสั่งซื้อได้'); return; }
+  const p = findProduct(pid);
+  orderSeq++;
+  const id = 'RP2026' + String(700+orderSeq).padStart(4,'0');
+  const order = {id, buyerId:session.user.id, sellerId:p.sellerId, items:[{pid, qty:pdQty}], status:'รอชำระเงิน', date:'21 ก.ค. 2569', address:'ที่อยู่จัดส่งของคุณ'};
+  state.orders.unshift(order);
+  notifSeq++;
+  state.notifications.unshift({id:'n'+notifSeq, sellerId:p.sellerId, text:`มีคำสั่งซื้อใหม่ #${id} จาก ${session.user.name}`, read:false, time:'เมื่อสักครู่'});
+  pdQty = 1;
+  toast(`สั่งซื้อสำเร็จ! หมายเลขคำสั่งซื้อ ${id}`);
+  go('myOrders');
+}
+
+/* ---------- BUYER ORDERS / TRACKING ---------- */
+const STATUS_STEPS = ['รอชำระเงิน','กำลังจัดเตรียม','จัดส่งแล้ว','สำเร็จ'];
+function renderMyOrders(){
+  if(!session.user || session.user.role!=='buyer'){
+    return `<div class="container empty"><div class="em">🔒</div>กรุณาเข้าสู่ระบบด้วยบัญชีผู้ซื้อ<br><br><button class="btn btn-primary" onclick="go('login')">เข้าสู่ระบบ</button></div>`;
+  }
+  const mine = state.orders.filter(o=>o.buyerId===session.user.id);
+  return `
+  <div class="container" style="padding-top:24px;padding-bottom:50px;max-width:820px;">
+    <h2 style="margin-bottom:18px;">📦 คำสั่งซื้อของฉัน</h2>
+    ${mine.length? mine.map(o=>{
+      const stepIdx = STATUS_STEPS.indexOf(o.status);
+      const seller = findUser(o.sellerId);
+      return `
+      <div class="order-card">
+        <div class="order-head">
+          <div>
+            <div class="order-id">คำสั่งซื้อ #${o.id}</div>
+            <div class="small-muted">${o.date} • ร้าน ${seller.shopName}</div>
+          </div>
+          <span class="status-chip status-${o.status}">${o.status}</span>
+        </div>
+        ${o.items.map(it=>{
+          const p = findProduct(it.pid);
+          return `<div class="order-item-row">
+            <div class="thumb" style="background:${p.color}">${p.em}</div>
+            <div style="flex:1;">${p.name}<div class="small-muted">x${it.qty}</div></div>
+            <div style="font-weight:700;">${money(p.price*it.qty)}</div>
+          </div>`;
+        }).join('')}
+        <div class="tracker">
+          ${STATUS_STEPS.map((s,i)=>`
+            <div class="tstep ${i<=stepIdx?'done':''}">
+              <div class="tline"></div>
+              <div class="dot"></div>
+              <div class="lbl">${s}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    }).join('') : `<div class="empty"><div class="em">🛍️</div>ยังไม่มีคำสั่งซื้อ ลองไปช้อปกันเลย!<br><br><button class="btn btn-primary" onclick="go('home')">ไปช้อปปิ้ง</button></div>`}
+  </div>`;
+}
+
+/* ---------- LOGIN / REGISTER ---------- */
+let authErr = '';
+let regRole = 'buyer';
+function renderLogin(){
+  return `
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="logo"><span class="logo-mark">${ICONS.bag}</span>รามปี้</div>
+      <div class="auth-sub">เข้าสู่ระบบเพื่อเริ่มช้อปหรือขายของ</div>
+      ${authErr?`<div class="error-box">${authErr}</div>`:''}
+      <form onsubmit="event.preventDefault(); doLogin();">
+        <div class="field"><label>ชื่อผู้ใช้</label><input id="li_user" type="text" placeholder="เช่น buyer1"></div>
+        <div class="field"><label>รหัสผ่าน</label><input id="li_pass" type="password" placeholder="••••••"></div>
+        <button class="btn btn-primary btn-block" type="submit">เข้าสู่ระบบ</button>
+      </form>
+      <div class="demo-box">
+        <b>ทดลองใช้งาน:</b><br>
+        ผู้ซื้อ — username: <b>buyer1</b> / password: <b>1234</b><br>
+        ผู้ขาย — username: <b>seller1</b> / password: <b>1234</b>
+      </div>
+      <div class="auth-switch">ยังไม่มีบัญชี? <b onclick="go('register')">สมัครสมาชิก</b></div>
+    </div>
+  </div>`;
+}
+function doLogin(){
+  const u = document.getElementById('li_user').value.trim();
+  const pw = document.getElementById('li_pass').value;
+  const found = state.users.find(x=>x.username===u && x.password===pw);
+  if(!found){ authErr='ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'; go('login'); return; }
+  authErr='';
+  session.user = found;
+  toast(`ยินดีต้อนรับ ${found.name}`);
+  go(found.role==='seller' ? 'dashboard' : 'home');
+}
+function doLogout(){
+  session.user = null;
+  toast('ออกจากระบบแล้ว');
+  go('home');
+}
+
+function renderRegister(){
+  return `
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="logo"><span class="logo-mark">${ICONS.bag}</span>รามปี้</div>
+      <div class="auth-sub">สมัครสมาชิกใหม่ — เลือกประเภทบัญชี</div>
+      ${authErr?`<div class="error-box">${authErr}</div>`:''}
+      <div class="role-toggle">
+        <button type="button" class="${regRole==='buyer'?'active':''}" onclick="regRole='buyer';go('register');">🧑 ผู้ซื้อ</button>
+        <button type="button" class="${regRole==='seller'?'active':''}" onclick="regRole='seller';go('register');">🏪 ผู้ขาย</button>
+      </div>
+      <form onsubmit="event.preventDefault(); doRegister();">
+        <div class="field"><label>ชื่อ-นามสกุล</label><input id="rg_name" type="text" placeholder="ชื่อของคุณ"></div>
+        ${regRole==='seller'?`<div class="field"><label>ชื่อร้านค้า</label><input id="rg_shop" type="text" placeholder="ชื่อร้านของคุณ"></div>`:''}
+        <div class="field"><label>ชื่อผู้ใช้</label><input id="rg_user" type="text" placeholder="ตั้งชื่อผู้ใช้"></div>
+        <div class="field"><label>รหัสผ่าน</label><input id="rg_pass" type="password" placeholder="••••••"></div>
+        <button class="btn btn-primary btn-block" type="submit">สมัครสมาชิก</button>
+      </form>
+      <div class="auth-switch">มีบัญชีอยู่แล้ว? <b onclick="go('login')">เข้าสู่ระบบ</b></div>
+    </div>
+  </div>`;
+}
+function doRegister(){
+  const name = document.getElementById('rg_name').value.trim();
+  const user = document.getElementById('rg_user').value.trim();
+  const pass = document.getElementById('rg_pass').value;
+  const shop = regRole==='seller' ? document.getElementById('rg_shop').value.trim() : null;
+  if(!name || !user || !pass || (regRole==='seller' && !shop)){ authErr='กรุณากรอกข้อมูลให้ครบถ้วน'; go('register'); return; }
+  if(state.users.some(u=>u.username===user)){ authErr='มีชื่อผู้ใช้นี้แล้ว กรุณาเลือกชื่ออื่น'; go('register'); return; }
+  const id = 'u' + (state.users.length+1);
+  const newUser = {id, username:user, password:pass, role:regRole, name, shopName:shop};
+  state.users.push(newUser);
+  authErr='';
+  session.user = newUser;
+  toast('สมัครสมาชิกสำเร็จ ยินดีต้อนรับสู่รามปี้!');
+  go(regRole==='seller' ? 'dashboard' : 'home');
+}
+
+/* ---------- SELLER DASHBOARD ---------- */
+function renderDashboard(){
+  if(!session.user || session.user.role!=='seller'){
+    return `<div class="container empty"><div class="em">🔒</div>กรุณาเข้าสู่ระบบด้วยบัญชีร้านค้า<br><br><button class="btn btn-primary" onclick="go('login')">เข้าสู่ระบบ</button></div>`;
+  }
+  const tab = view.dashTab || 'products';
+  const myProducts = state.products.filter(p=>p.sellerId===session.user.id);
+  const myOrders = state.orders.filter(o=>o.sellerId===session.user.id);
+  const myNotifs = state.notifications.filter(n=>n.sellerId===session.user.id);
+  const unread = myNotifs.filter(n=>!n.read).length;
+
+  let panel = '';
+  if(tab==='products') panel = dashProducts(myProducts);
+  else if(tab==='add') panel = dashAddProduct();
+  else if(tab==='orders') panel = dashOrders(myOrders);
+  else if(tab==='notifications') panel = dashNotifications(myNotifs);
+
+  return `
+  <div class="container">
+    <div class="dash-shell">
+      <div class="dash-nav">
+        <div style="padding:8px 10px 14px;font-weight:700;">🏪 ${session.user.shopName}</div>
+        <button class="${tab==='products'?'active':''}" onclick="go('dashboard',{dashTab:'products'})">📦 สินค้าของฉัน</button>
+        <button class="${tab==='add'?'active':''}" onclick="go('dashboard',{dashTab:'add'})">➕ ลงขายสินค้าใหม่</button>
+        <button class="${tab==='orders'?'active':''}" onclick="go('dashboard',{dashTab:'orders'})">🧾 คำสั่งซื้อ</button>
+        <button class="${tab==='notifications'?'active':''}" onclick="go('dashboard',{dashTab:'notifications'})">🔔 การแจ้งเตือน ${unread>0?`<span class="badge" style="position:static;margin-left:6px;">${unread}</span>`:''}</button>
+      </div>
+      <div class="dash-panel">${panel}</div>
+    </div>
+  </div>`;
+}
+
+function dashProducts(list){
+  return `
+  <div class="stat-row">
+    <div class="stat-box"><div class="n">${list.length}</div><div class="l">สินค้าทั้งหมด</div></div>
+    <div class="stat-box"><div class="n">${list.reduce((s,p)=>s+p.sold,0)}</div><div class="l">ยอดขายสะสม (ชิ้น)</div></div>
+    <div class="stat-box"><div class="n">${money(list.reduce((s,p)=>s+p.sold*p.price,0))}</div><div class="l">รายได้โดยประมาณ</div></div>
+  </div>
+  <h3 style="margin-top:0;">สินค้าของฉัน</h3>
+  <table class="dt">
+    <thead><tr><th></th><th>สินค้า</th><th>ราคา</th><th>คงเหลือ</th><th>ขายแล้ว</th></tr></thead>
+    <tbody>
+    ${list.map(p=>`
+      <tr>
+        <td><div class="thumb" style="width:36px;height:36px;border-radius:8px;background:${p.color};display:flex;align-items:center;justify-content:center;font-size:18px;">${p.em}</div></td>
+        <td>${p.name}</td>
+        <td>${money(p.price)}</td>
+        <td>${p.stock}</td>
+        <td>${p.sold}</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+function dashAddProduct(){
+  return `
+  <h3 style="margin-top:0;">ลงขายสินค้าใหม่</h3>
+  <form onsubmit="event.preventDefault(); submitNewProduct();" style="max-width:480px;">
+    <div class="field"><label>ชื่อสินค้า</label><input id="np_name" type="text" placeholder="เช่น เสื้อยืดผ้าคอตตอน"></div>
+    <div class="field"><label>หมวดหมู่</label>
+      <select id="np_cat">${CATS.map(c=>`<option value="${c.k}">${c.l}</option>`).join('')}</select>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <div class="field" style="flex:1;"><label>ราคาขาย (บาท)</label><input id="np_price" type="number" min="1" placeholder="199"></div>
+      <div class="field" style="flex:1;"><label>จำนวนสต็อก</label><input id="np_stock" type="number" min="1" placeholder="50"></div>
+    </div>
+    <div class="field"><label>รายละเอียดสินค้า</label><textarea id="np_desc" rows="3" placeholder="อธิบายสินค้าของคุณสั้น ๆ"></textarea></div>
+    <button class="btn btn-primary btn-block" type="submit">ลงขายสินค้า</button>
+  </form>`;
+}
+function submitNewProduct(){
+  const name = document.getElementById('np_name').value.trim();
+  const cat = document.getElementById('np_cat').value;
+  const price = parseInt(document.getElementById('np_price').value,10);
+  const stock = parseInt(document.getElementById('np_stock').value,10);
+  if(!name || !price || !stock){ toast('กรุณากรอกข้อมูลสินค้าให้ครบถ้วน'); return; }
+  const em = (CATS.find(c=>c.k===cat)||{}).em || '📦';
+  const colors = ['#FFE3D1','#DCEBFF','#FFE9C7','#FFD6E0','#E8E2FF','#D9F2E4','#FFF0D6','#F1E4D3'];
+  const id = 'p' + (state.products.length+1);
+  state.products.unshift({id, sellerId:session.user.id, name, price, oldPrice:Math.round(price*1.3), cat, em, color:colors[Math.floor(Math.random()*colors.length)], stock, sold:0, rating:5.0, flash:false});
+  toast('ลงขายสินค้าสำเร็จแล้ว!');
+  go('dashboard',{dashTab:'products'});
+}
+
+function dashOrders(list){
+  return `
+  <h3 style="margin-top:0;">คำสั่งซื้อที่ได้รับ</h3>
+  ${list.length? `<table class="dt">
+    <thead><tr><th>เลขที่คำสั่งซื้อ</th><th>สินค้า</th><th>ยอดรวม</th><th>สถานะ</th><th>อัปเดตสถานะ</th></tr></thead>
+    <tbody>
+    ${list.map(o=>{
+      const total = o.items.reduce((s,it)=>{const p=findProduct(it.pid);return s+p.price*it.qty;},0);
+      return `<tr>
+        <td>#${o.id}</td>
+        <td>${o.items.map(it=>findProduct(it.pid).name).join(', ')}</td>
+        <td>${money(total)}</td>
+        <td><span class="status-chip status-${o.status}">${o.status}</span></td>
+        <td>
+          <select onchange="updateOrderStatus('${o.id}', this.value)" style="border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px;">
+            ${STATUS_STEPS.map(s=>`<option value="${s}" ${o.status===s?'selected':''}>${s}</option>`).join('')}
+          </select>
+        </td>
+      </tr>`;
+    }).join('')}
+    </tbody>
+  </table>` : `<div class="empty"><div class="em">🧾</div>ยังไม่มีคำสั่งซื้อเข้ามา</div>`}
+  `;
+}
+function updateOrderStatus(oid, status){
+  const o = state.orders.find(x=>x.id===oid);
+  if(o){ o.status = status; toast(`อัปเดตสถานะคำสั่งซื้อ #${oid} เป็น "${status}"`); go('dashboard',{dashTab:'orders'}); }
+}
+
+function dashNotifications(list){
+  return `
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h3 style="margin-top:0;">การแจ้งเตือนคำสั่งซื้อ</h3>
+    ${list.some(n=>!n.read) ? `<button class="link-btn" onclick="markAllRead()">อ่านทั้งหมด</button>`:''}
+  </div>
+  ${list.length? list.map(n=>`
+    <div class="notif-item ${n.read?'':'unread'}">
+      <div class="notif-dot ${n.read?'read':''}"></div>
+      <div style="flex:1;">
+        <div>${n.text}</div>
+        <div class="small-muted">${n.time}</div>
+      </div>
+    </div>`).join('') : `<div class="empty"><div class="em">🔔</div>ยังไม่มีการแจ้งเตือน</div>`}
+  `;
+}
+function markAllRead(){
+  state.notifications.forEach(n=>{ if(n.sellerId===session.user.id) n.read=true; });
+  go('dashboard',{dashTab:'notifications'});
+}
+
+/* ---------- FOOTER ---------- */
+function renderFooter(){
+  return `
+  <footer>
+    <div class="foot-inner">
+      <div style="max-width:280px;">
+        <div class="logo" style="color:var(--gold-300);font-size:20px;margin-bottom:8px;">รามปี้</div>
+        <div style="opacity:.75;">แพลตฟอร์มช้อปปิ้งออนไลน์ ที่รวมร้านค้าคุณภาพไว้ในที่เดียว ช้อปง่าย จ่ายสบาย ส่งไวทั่วไทย</div>
+      </div>
+      <div>
+        <div style="font-weight:700;margin-bottom:8px;">ช่วยเหลือ</div>
+        <div style="opacity:.75;line-height:2;">วิธีการสั่งซื้อ<br>การจัดส่งสินค้า<br>นโยบายการคืนสินค้า</div>
+      </div>
+      <div>
+        <div style="font-weight:700;margin-bottom:8px;">ขายกับเรา</div>
+        <div style="opacity:.75;line-height:2;">เริ่มต้นขายสินค้า<br>ศูนย์ช่วยเหลือผู้ขาย</div>
+      </div>
+    </div>
+    <div class="copyline">© 2569 รามปี้ (Rampee) — ทำด้วยใจส้มแดง 🧡</div>
+  </footer>`;
+}
+
+/* ---------- ROUTER / RENDER ---------- */
+function render(){
+  const app = document.getElementById('app');
+  const bare = ['login','register'].includes(view.name);
+  if(bare){
+    app.innerHTML = view.name==='login' ? renderLogin() : renderRegister();
+    return;
+  }
+  let mainHtml = '';
+  if(view.name==='home') mainHtml = renderHome();
+  else if(view.name==='search') mainHtml = renderSearch();
+  else if(view.name==='product') mainHtml = renderProduct();
+  else if(view.name==='myOrders') mainHtml = renderMyOrders();
+  else if(view.name==='dashboard') mainHtml = renderDashboard();
+  else mainHtml = renderHome();
+
+  app.innerHTML = `
+    ${renderTopbar()}
+    <main>${mainHtml}</main>
+    ${renderFooter()}
+  `;
+}
+
+/* ---------- expose fns used inline ---------- */
+window.go = go; window.doSearch = doSearch; window.doLogin = doLogin; window.doLogout = doLogout;
+window.doRegister = doRegister; window.changeQty = changeQty; window.orderNow = orderNow;
+window.updateOrderStatus = updateOrderStatus; window.markAllRead = markAllRead;
+window.submitNewProduct = submitNewProduct; window.regRole = regRole;
+
+render();
+</script>
+</body>
+</html>
